@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  padding: 0.45rem var(--gutter) 0.15rem calc(var(--gutter) - 0.25rem);
+  transition: background-color 160ms;
+  animation: arrive 260ms var(--ease-out);
+}
+.row:hover {
+  background: rgb(239 230 210 / 0.025);
+}
+.row--continued {
+  padding-top: 0.05rem;
+}
+
+/* Mentionné : le message s'éclaire comme un voyant d'appel */
+.row--mention {
+  background: linear-gradient(90deg, rgb(255 106 77 / 0.1), transparent 70%);
+  box-shadow: inset 2px 0 0 var(--alert);
+}
+.row--mention:hover {
+  background: linear-gradient(90deg, rgb(255 106 77 / 0.14), transparent 70%);
+}
+
+.row--pending .row__text {
+  opacity: 0.55;
+}
+.row--failed .row__text {
+  color: var(--text-soft);
+  text-decoration: line-through rgb(255 123 107 / 0.5);
+}
+
+.row__gutter {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.15rem;
+}
+.row__peek {
+  visibility: hidden;
+  padding-top: 0.2rem;
+  color: var(--text-faint);
+  font-size: 0.5625rem;
+  letter-spacing: 0.02em;
+}
+.row:hover .row__peek {
+  visibility: visible;
+}
+
+.row__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.1rem;
+}
+.row__author {
+  color: var(--lamp);
+  font-weight: 650;
+}
+.row__time {
+  color: var(--text-faint);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+}
+
+.row__text {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.mention {
+  padding: 0 0.12em;
+  border-radius: 4px;
+  background: rgb(255 181 71 / 0.12);
+  color: var(--signal);
+  font-weight: 600;
+}
+.mention--self {
+  background: rgb(255 106 77 / 0.18);
+  color: var(--alert);
+}
+
+.link {
+  color: var(--lamp-azur);
+  text-decoration-color: rgb(124 176 255 / 0.4);
+  text-underline-offset: 2px;
+}
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+.row__state {
+  margin-top: 0.2rem;
+  font-size: 0.625rem;
+}
+.row__state--failed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  color: var(--danger);
+  font-size: 0.8125rem;
+  --icon-size: 0.9rem;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}

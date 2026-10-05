@@ -1,0 +1,64 @@
+<article
+  class="row"
+  [class.row--continued]="continued()"
+  [class.row--mention]="mentionsMe()"
+  [class.row--pending]="message().state === 'pending'"
+  [class.row--failed]="message().state === 'failed'"
+  [attr.data-lamp]="message().author.color"
+>
+  <div class="row__gutter">
+    @if (continued()) {
+      <time class="row__peek mono" [attr.datetime]="message().sentAt">{{ time() }}</time>
+    } @else {
+      <app-lamp
+        [color]="message().author.color"
+        [nickname]="message().author.nickname"
+        [lit]="lit()"
+      />
+    }
+  </div>
+
+  <div class="row__body">
+    @if (!continued()) {
+      <header class="row__head">
+        <span class="row__author">{{ message().author.nickname }}</span>
+        @if (message().author.bot) {
+          <span class="tag">bot</span>
+        }
+        <time class="row__time mono" [attr.datetime]="message().sentAt">{{ time() }}</time>
+      </header>
+    }
+
+    <p class="row__text">
+      @for (segment of segments(); track $index) {
+        @switch (segment.kind) {
+          @case ('mention') {
+            <span class="mention" [class.mention--self]="segment.self">{{ segment.text }}</span>
+          }
+          @case ('link') {
+            <a class="link" [href]="segment.href" target="_blank" rel="noopener noreferrer">{{
+              segment.text
+            }}</a>
+          }
+          @default {
+            <span>{{ segment.text }}</span>
+          }
+        }
+      }
+    </p>
+
+    @if (message().state === 'pending') {
+      <p class="row__state mono faint">Émission…</p>
+    } @else if (message().state === 'failed') {
+      <p class="row__state row__state--failed">
+        <span>{{ message().error }}</span>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="retry.emit()">
+          <app-icon name="retry" /> Réessayer
+        </button>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="discard.emit()">
+          Supprimer
+        </button>
+      </p>
+    }
+  </div>
+</article>

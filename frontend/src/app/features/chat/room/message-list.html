@@ -1,0 +1,64 @@
+<div class="viewport" #viewport (scroll)="onScroll()">
+  <div class="feed" role="log" aria-live="polite" [attr.aria-label]="'Messages de #' + roomName()">
+    @if (!hasMore() && messages().length) {
+      <header class="origin">
+        <span class="origin__mark display" aria-hidden="true">#</span>
+        <h2 class="origin__title display">Début de #{{ roomName() }}</h2>
+        @if (topic(); as topic) {
+          <p class="muted">{{ topic }}</p>
+        }
+      </header>
+    } @else if (loading() && messages().length) {
+      <p class="status mono faint">Remontée du fil…</p>
+    }
+
+    @for (item of items(); track item.key) {
+      @switch (item.kind) {
+        @case ('day') {
+          <div class="divider" role="separator">
+            <span class="divider__label mono">{{ item.label }}</span>
+          </div>
+        }
+        @case ('unread') {
+          <div class="divider divider--unread" role="separator" data-unread-divider>
+            <span class="divider__label mono">Nouveaux messages</span>
+          </div>
+        }
+        @case ('message') {
+          <app-message-row
+            [message]="item.message"
+            [continued]="item.continued"
+            [meNickname]="me().nickname"
+            [lit]="isLit(item.message.author.id)"
+            (retry)="retry.emit(item.message.key)"
+            (discard)="discard.emit(item.message.key)"
+          />
+        }
+      }
+    } @empty {
+      @if (error(); as error) {
+        <p class="status" role="alert">
+          {{ error }}
+          <button type="button" class="btn btn--sm" (click)="reload.emit()">Réessayer</button>
+        </p>
+      } @else if (loading()) {
+        <p class="status mono faint">Accord sur la fréquence…</p>
+      } @else {
+        <div class="silence">
+          <span class="silence__mark display" aria-hidden="true">#</span>
+          <p>
+            Silence radio sur <strong>#{{ roomName() }}</strong
+            >. Lancez la conversation&nbsp;!
+          </p>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+@if (unseen()) {
+  <button type="button" class="jump" (click)="jumpToLatest()">
+    <app-icon name="arrow-down" />
+    {{ unseen() }} {{ unseen() > 1 ? 'nouveaux messages' : 'nouveau message' }}
+  </button>
+}

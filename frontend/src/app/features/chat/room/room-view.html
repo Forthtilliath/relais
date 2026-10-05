@@ -1,0 +1,105 @@
+@if (room(); as room) {
+  <section class="room" [attr.aria-label]="'Canal #' + room.name">
+    <header class="room__head">
+      <button
+        type="button"
+        class="icon-btn room__nav"
+        aria-label="Afficher les canaux"
+        (click)="toggleNav.emit()"
+      >
+        <app-icon name="menu" />
+      </button>
+      <div class="room__title">
+        <h1 class="room__name display"><span class="room__hash">#</span>{{ room.name }}</h1>
+        @if (room.topic) {
+          <p class="room__topic">{{ room.topic }}</p>
+        }
+      </div>
+      <div class="room__actions">
+        @if (room.joined && room.name !== defaultRoom) {
+          <button
+            type="button"
+            class="btn btn--ghost btn--sm"
+            [disabled]="busy()"
+            (click)="leave(room)"
+          >
+            Quitter
+          </button>
+        }
+        <button
+          type="button"
+          class="icon-btn room__members"
+          [attr.aria-pressed]="membersOpen()"
+          [attr.aria-label]="room.memberCount + ' membre(s) — afficher la liste'"
+          title="Membres du canal"
+          (click)="toggleMembers.emit()"
+        >
+          <app-icon name="users" />
+          <span class="mono">{{ room.memberCount }}</span>
+        </button>
+      </div>
+    </header>
+
+    @if (session.me(); as me) {
+      <app-message-list
+        class="room__messages"
+        [roomId]="room.id"
+        [roomName]="room.name"
+        [topic]="room.topic"
+        [messages]="timeline().messages"
+        [loading]="timeline().loading"
+        [hasMore]="timeline().hasMore"
+        [error]="timeline().error"
+        [readUpTo]="rooms.openedReadMark()"
+        [me]="me"
+        [onlineIds]="presence.onlineIds()"
+        (loadOlder)="messages.loadOlder(room.id)"
+        (retry)="messages.retry(room.id, $event)"
+        (discard)="messages.discard(room.id, $event)"
+        (reload)="messages.loadLatest(room.id)"
+      />
+    }
+
+    <footer class="room__foot">
+      <app-typing-indicator [names]="typers()" />
+      @if (room.joined) {
+        <app-composer
+          [roomName]="room.name"
+          [members]="members.members()"
+          [offline]="chat.connection() !== 'online'"
+          (sent)="chat.send(room.id, $event)"
+          (typing)="chat.notifyTyping(room.id)"
+        />
+      } @else {
+        <div class="join">
+          <p class="join__text">
+            Vous écoutez <strong>#{{ room.name }}</strong> en aperçu.
+            <span class="muted join__hint">Rejoignez-le pour émettre et suivre ses non-lus.</span>
+          </p>
+          <button type="button" class="btn btn--signal" [disabled]="busy()" (click)="join(room)">
+            Rejoindre le canal
+          </button>
+        </div>
+      }
+    </footer>
+  </section>
+} @else {
+  <section class="room room--empty">
+    <button
+      type="button"
+      class="icon-btn room__nav"
+      aria-label="Afficher les canaux"
+      (click)="toggleNav.emit()"
+    >
+      <app-icon name="menu" />
+    </button>
+    @if (rooms.loadError(); as error) {
+      <p class="room__status" role="alert">
+        {{ error }}
+        <button type="button" class="btn btn--sm" (click)="rooms.load()">Réessayer</button>
+      </p>
+    } @else {
+      <p class="room__status mono faint">Recherche de la fréquence…</p>
+    }
+  </section>
+}

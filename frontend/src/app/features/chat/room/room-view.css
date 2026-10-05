@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.room {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+.room__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4rem;
+  padding: 0.6rem var(--gutter);
+  border-bottom: 1px solid var(--line);
+  background: rgb(14 13 11 / 0.6);
+  backdrop-filter: blur(6px);
+}
+.room__nav {
+  display: none;
+}
+.room__title {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 0.15rem;
+}
+.room__name {
+  overflow: hidden;
+  font-size: 1.45rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.room__hash {
+  margin-right: 0.08em;
+  color: var(--signal);
+}
+.room__topic {
+  overflow: hidden;
+  color: var(--text-soft);
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.room__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.room__members {
+  width: auto;
+  gap: 0.35rem;
+  padding: 0 0.6rem;
+}
+
+.room__messages {
+  min-height: 0;
+}
+
+.room__foot {
+  display: grid;
+  padding: 0 var(--gutter) max(0.9rem, env(safe-area-inset-bottom));
+}
+
+.join {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.join__text {
+  flex: 1 1 18rem;
+}
+.join__hint {
+  display: block;
+  margin-top: 0.15rem;
+}
+
+.room--empty {
+  grid-template-rows: auto 1fr;
+  place-items: center;
+  padding: var(--gutter);
+}
+.room--empty .room__nav {
+  justify-self: start;
+}
+.room__status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 759px) {
+  .room__nav {
+    display: inline-grid;
+  }
+}
