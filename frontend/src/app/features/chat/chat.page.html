@@ -1,0 +1,24 @@
+<div class="chat" [class.chat--nav-open]="navOpen()" [class.chat--members-open]="membersOpen()">
+  <app-sidebar class="chat__sidebar" (navigated)="navOpen.set(false)" />
+
+  <app-room-view
+    class="chat__room"
+    [membersOpen]="membersOpen()"
+    (toggleNav)="navOpen.set(!navOpen())"
+    (toggleMembers)="membersOpen.set(!membersOpen())"
+  />
+
+  @if (membersOpen()) {
+    <app-members-panel class="chat__members" (dismiss)="membersOpen.set(false)" />
+  }
+
+  <button
+    type="button"
+    class="chat__scrim"
+    tabindex="-1"
+    aria-label="Fermer le panneau"
+    (click)="closePanels()"
+  ></button>
+</div>
+
+<app-toasts />
