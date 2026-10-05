@@ -1,0 +1,3 @@
+# LF partout, y compris dans la copie de travail Windows (Prettier attend du LF).
+# Les scripts .cmd restent en CRLF (voir backend/.gitattributes).
+* text=auto eol=lf
