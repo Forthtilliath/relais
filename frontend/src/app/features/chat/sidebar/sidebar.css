@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  border-right: 1px solid var(--line);
+  background: linear-gradient(
+    180deg,
+    var(--panel),
+    color-mix(in oklab, var(--panel) 70%, var(--night))
+  );
+}
+
+.sidebar {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+.sidebar__head {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.1rem 1.1rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.sidebar__scroll {
+  display: grid;
+  align-content: start;
+  gap: 1.4rem;
+  padding: 1.1rem 0.5rem;
+  overflow-y: auto;
+}
+
+.group {
+  display: grid;
+  gap: 0.35rem;
+}
+.group .panel-heading {
+  min-height: 2.1rem;
+  padding: 0 0.25rem 0 0.75rem;
+}
+.group__count {
+  margin-left: auto;
+  padding-right: 0.5rem;
+  color: var(--live);
+}
+
+.channels {
+  display: grid;
+  gap: 1px;
+}
+
+.online {
+  display: grid;
+  gap: 0.15rem;
+}
+.online__user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
+.online__name {
+  overflow: hidden;
+  color: var(--lamp);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__me {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.8rem 0.75rem;
+  border-top: 1px solid var(--line);
+  background: rgb(0 0 0 / 0.18);
+}
+.me {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  margin-left: 0.35rem;
+  line-height: 1.25;
+}
+.me__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

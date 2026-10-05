@@ -1,0 +1,78 @@
+/* Trois colonnes sur grand écran : canaux | fil | membres. Le fil seul défile. */
+.chat {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  height: 100dvh;
+  overflow: hidden;
+}
+.chat--members-open {
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--members-width);
+}
+
+.chat__sidebar,
+.chat__room,
+.chat__members {
+  min-height: 0;
+}
+
+.chat__scrim {
+  display: none;
+}
+
+/* Écran moyen : le panneau des membres passe par-dessus le fil */
+@media (max-width: 1099px) {
+  .chat--members-open {
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  }
+  .chat__members {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: 30;
+    width: min(var(--members-width), 86vw);
+    box-shadow: -20px 0 60px rgb(0 0 0 / 0.6);
+    animation: slide-in-right 220ms var(--ease-out);
+  }
+  .chat--members-open .chat__scrim {
+    display: block;
+  }
+}
+
+/* Mobile : les canaux deviennent un tiroir */
+@media (max-width: 759px) {
+  .chat,
+  .chat--members-open {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .chat__sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 30;
+    width: min(var(--sidebar-width), 86vw);
+    translate: -100% 0;
+    transition: translate 240ms var(--ease-out);
+  }
+  .chat--nav-open .chat__sidebar {
+    translate: 0 0;
+    box-shadow: 20px 0 60px rgb(0 0 0 / 0.6);
+  }
+  .chat--nav-open .chat__scrim {
+    display: block;
+  }
+}
+
+.chat__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  padding: 0;
+  border: 0;
+  background: rgb(5 4 3 / 0.6);
+  backdrop-filter: blur(2px);
+  cursor: default;
+}
+
+@keyframes slide-in-right {
+  from {
+    translate: 100% 0;
+  }
+}

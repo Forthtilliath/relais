@@ -1,0 +1,119 @@
+<nav class="sidebar" aria-label="Canaux et présence">
+  <header class="sidebar__head">
+    <app-logo [live]="connection() === 'online'" />
+    <app-signal-meter [state]="connection()" />
+  </header>
+
+  <div class="sidebar__scroll">
+    <section class="group" aria-labelledby="joined-heading">
+      <h2 class="panel-heading mono" id="joined-heading">
+        Vos canaux
+        <button
+          type="button"
+          class="icon-btn"
+          title="Créer un canal"
+          aria-label="Créer un canal"
+          (click)="creating.set(true)"
+        >
+          <app-icon name="plus" />
+        </button>
+      </h2>
+      <ul class="channels">
+        @for (room of rooms.joined(); track room.id) {
+          <li>
+            <app-channel-link
+              [room]="room"
+              [mentions]="rooms.mentions()[room.id] ?? 0"
+              (picked)="navigated.emit()"
+            />
+          </li>
+        }
+      </ul>
+    </section>
+
+    @if (rooms.discoverable().length) {
+      <section class="group" aria-labelledby="discover-heading">
+        <h2 class="panel-heading mono" id="discover-heading">À découvrir</h2>
+        <ul class="channels">
+          @for (room of rooms.discoverable(); track room.id) {
+            <li>
+              <app-channel-link [room]="room" [mentions]="0" (picked)="navigated.emit()" />
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    <section class="group" aria-labelledby="online-heading">
+      <h2 class="panel-heading mono" id="online-heading">
+        En ligne <span class="group__count">{{ presence.online().length }}</span>
+      </h2>
+      <ul class="online">
+        @for (user of presence.online(); track user.id) {
+          <li class="online__user">
+            <app-lamp [color]="user.color" [nickname]="user.nickname" [size]="22" />
+            <span class="online__name" [attr.data-lamp]="user.color">{{ user.nickname }}</span>
+            @if (user.bot) {
+              <span class="tag">bot</span>
+            } @else if (user.id === me()?.id) {
+              <span class="tag">vous</span>
+            }
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+
+  <footer class="sidebar__me">
+    @if (me(); as me) {
+      <app-lamp
+        [color]="me.color"
+        [nickname]="me.nickname"
+        [lit]="connection() === 'online'"
+        [size]="34"
+      />
+      <div class="me">
+        <strong class="me__name">{{ me.nickname }}</strong>
+        <span class="mono faint">{{
+          connection() === 'online' ? 'à l’antenne' : 'hors antenne'
+        }}</span>
+      </div>
+    }
+    <button
+      type="button"
+      class="icon-btn"
+      [attr.aria-pressed]="notifier.sound()"
+      [title]="notifier.sound() ? 'Couper le carillon' : 'Activer le carillon'"
+      [attr.aria-label]="notifier.sound() ? 'Couper le carillon' : 'Activer le carillon'"
+      (click)="notifier.toggleSound()"
+    >
+      <app-icon [name]="notifier.sound() ? 'volume' : 'volume-off'" />
+    </button>
+    @if (notifier.permission() !== 'unsupported') {
+      <button
+        type="button"
+        class="icon-btn"
+        [attr.aria-pressed]="notifier.permission() === 'granted'"
+        [title]="permissionHint()"
+        [attr.aria-label]="permissionHint()"
+        [disabled]="notifier.permission() !== 'default'"
+        (click)="notifier.enableSystemNotifications()"
+      >
+        <app-icon [name]="notifier.permission() === 'granted' ? 'bell' : 'bell-off'" />
+      </button>
+    }
+    <button
+      type="button"
+      class="icon-btn"
+      title="Libérer l’indicatif et se déconnecter"
+      aria-label="Se déconnecter"
+      (click)="logout()"
+    >
+      <app-icon name="logout" />
+    </button>
+  </footer>
+</nav>
+
+@if (creating()) {
+  <app-create-room-dialog (closed)="creating.set(false)" (created)="navigated.emit()" />
+}
