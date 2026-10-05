@@ -1,0 +1,194 @@
+.login {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 27rem);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+  min-height: 100dvh;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 4rem) var(--gutter);
+}
+
+/* ---------------------------------------------------------------- Accroche */
+
+.brand {
+  display: grid;
+  gap: 1.6rem;
+}
+.brand__title {
+  font-size: clamp(2.9rem, 7.5vw, 5.6rem);
+  font-variation-settings: 'wdth' 76;
+}
+.brand__title em {
+  color: var(--signal);
+  font-style: normal;
+  text-shadow: 0 0 34px var(--signal-glow);
+}
+.brand__lede {
+  max-width: 34rem;
+  color: var(--text-soft);
+  font-size: 1.125rem;
+}
+.brand__features {
+  display: grid;
+  gap: 0.7rem;
+  color: var(--text-soft);
+}
+.brand__features li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.brand__features code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--alert);
+}
+.dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  translate: 0 -1px;
+}
+.dot--live {
+  background: var(--live);
+  box-shadow: 0 0 10px var(--live);
+}
+.dot--signal {
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+}
+.dot--alert {
+  background: var(--alert);
+  box-shadow: 0 0 10px var(--alert);
+}
+.brand__stack {
+  color: var(--text-faint);
+}
+
+/* ---------------------------------------------------------------- Formulaire */
+
+.card {
+  display: grid;
+  gap: 1.35rem;
+  padding: clamp(1.4rem, 3vw, 2.1rem);
+  border: 1px solid var(--line-strong);
+  border-radius: calc(var(--radius) + 4px);
+  background: linear-gradient(180deg, var(--panel-raised), var(--panel));
+  box-shadow:
+    0 30px 80px -30px rgb(0 0 0 / 0.8),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
+}
+.card__title {
+  font-size: 2rem;
+}
+
+.nick {
+  position: relative;
+}
+.nick__at {
+  position: absolute;
+  top: 50%;
+  left: 0.85rem;
+  translate: 0 -50%;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+.nick__input {
+  padding-left: 2rem;
+  font-family: var(--font-mono);
+}
+
+.colors {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.colors legend {
+  margin-bottom: 0.6rem;
+  padding: 0;
+}
+.colors__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--night);
+  cursor: pointer;
+  transition:
+    border-color 140ms,
+    background-color 140ms;
+}
+.swatch:hover {
+  border-color: var(--line-strong);
+}
+.swatch:has(:checked) {
+  border-color: var(--lamp);
+  background: color-mix(in oklab, var(--lamp) 9%, var(--night));
+}
+.swatch:has(:focus-visible) {
+  outline: 2px solid var(--lamp);
+  outline-offset: 2px;
+}
+.swatch__bulb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--lamp) 35%, #1c1a16);
+  transition: box-shadow 200ms;
+}
+.swatch:has(:checked) .swatch__bulb {
+  background: var(--lamp);
+  box-shadow: 0 0 12px var(--lamp);
+}
+.swatch__name {
+  font-size: 0.875rem;
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+.preview__text {
+  display: grid;
+  min-width: 0;
+}
+.preview__name {
+  overflow: hidden;
+  color: var(--lamp);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__submit {
+  min-height: 2.9rem;
+  font-size: 0.95rem;
+}
+.card__tip {
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 860px) {
+  .login {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+  .brand__features,
+  .brand__stack {
+    display: none;
+  }
+}
