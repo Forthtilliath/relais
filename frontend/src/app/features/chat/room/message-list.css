@@ -1,0 +1,115 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+.viewport {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
+}
+
+/* Le fil se cale en bas quand il est court, comme une conversation qui commence */
+.feed {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100%;
+  padding: 1.25rem 0 0.5rem;
+}
+
+.origin {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem var(--gutter) 1.5rem;
+}
+.origin__mark {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel-raised);
+  color: var(--signal);
+  font-size: 1.8rem;
+}
+.origin__title {
+  font-size: 1.6rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem var(--gutter) 0.5rem;
+  color: var(--text-faint);
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.divider__label {
+  font-size: 0.625rem;
+}
+.divider--unread {
+  color: var(--alert);
+}
+.divider--unread::before,
+.divider--unread::after {
+  background: color-mix(in oklab, var(--alert) 45%, transparent);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem var(--gutter);
+}
+
+.silence {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  margin: auto;
+  padding: 2rem var(--gutter);
+  color: var(--text-soft);
+  text-align: center;
+}
+.silence__mark {
+  color: var(--panel-high);
+  font-size: 4rem;
+}
+
+.jump {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.95rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--signal);
+  color: var(--signal-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  box-shadow: 0 8px 26px -6px var(--signal-glow);
+  animation: pop 220ms var(--ease-out);
+  --icon-size: 0.95rem;
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    translate: -50% 8px;
+  }
+}

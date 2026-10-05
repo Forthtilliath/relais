@@ -1,0 +1,76 @@
+<div class="composer" [class.composer--offline]="offline()">
+  @if (suggestions().length) {
+    <ul
+      class="suggestions"
+      id="mention-suggestions"
+      role="listbox"
+      aria-label="Membres à mentionner"
+    >
+      @for (member of suggestions(); track member.id; let i = $index) {
+        <li
+          class="suggestion"
+          role="option"
+          [id]="'mention-' + i"
+          [attr.aria-selected]="i === highlighted()"
+          [class.suggestion--active]="i === highlighted()"
+          (mousedown)="$event.preventDefault(); pick(member)"
+          (mouseenter)="highlighted.set(i)"
+        >
+          <app-lamp
+            [color]="member.color"
+            [nickname]="member.nickname"
+            [lit]="member.online"
+            [size]="22"
+          />
+          <span class="suggestion__name" [attr.data-lamp]="member.color"
+            >&#64;{{ member.nickname }}</span
+          >
+          @if (member.bot) {
+            <span class="tag">bot</span>
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  <label class="visually-hidden" for="composer-field">Message pour #{{ roomName() }}</label>
+  <textarea
+    #field
+    id="composer-field"
+    class="composer__field"
+    rows="1"
+    [attr.maxlength]="maxLength + 200"
+    [placeholder]="
+      offline() ? 'Liaison coupée — reconnexion en cours…' : 'Émettre sur #' + roomName()
+    "
+    role="combobox"
+    aria-autocomplete="list"
+    [attr.aria-expanded]="suggestions().length > 0"
+    aria-controls="mention-suggestions"
+    [attr.aria-activedescendant]="suggestions().length ? 'mention-' + highlighted() : null"
+    (input)="onInput()"
+    (keydown)="onKeydown($event)"
+    (blur)="query.set(null)"
+  ></textarea>
+
+  <div class="composer__side">
+    @if (remaining() < 200) {
+      <span class="composer__count mono" [class.composer__count--over]="remaining() < 0">{{
+        remaining()
+      }}</span>
+    }
+    <button
+      type="button"
+      class="composer__send"
+      aria-label="Émettre"
+      title="Émettre (Entrée)"
+      [disabled]="!canSend()"
+      (click)="submit()"
+    >
+      <app-icon name="send" />
+    </button>
+  </div>
+</div>
+<p class="hint mono faint" aria-hidden="true">
+  Entrée pour émettre · Maj + Entrée pour aller à la ligne · &#64; pour mentionner
+</p>
