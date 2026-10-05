@@ -1,0 +1,93 @@
+<main class="login">
+  <section class="brand">
+    <app-logo [live]="true" />
+    <h1 class="brand__title display">Le salon<br />reste <em>allumé</em>.</h1>
+    <p class="brand__lede">
+      Messagerie instantanée avec canaux, présence en ligne et notifications — en direct, sur
+      WebSocket.
+    </p>
+    <ul class="brand__features">
+      <li>
+        <span class="dot dot--live" aria-hidden="true"></span>Votre voyant s’allume quand vous êtes
+        là, s’éteint quand vous partez
+      </li>
+      <li>
+        <span class="dot dot--signal" aria-hidden="true"></span>Canaux publics, non-lus et « … écrit
+        » en temps réel
+      </li>
+      <li>
+        <span class="dot dot--alert" aria-hidden="true"></span>Mentions
+        <code>&#64;indicatif</code> notifiées, même onglet caché
+      </li>
+    </ul>
+    <p class="brand__stack mono">Angular 22 · Spring Boot 4 · STOMP / WebSocket · PostgreSQL</p>
+  </section>
+
+  <form class="card" (submit)="submit($event)" novalidate>
+    <h2 class="card__title display">Prendre l’antenne</h2>
+    <p class="muted">
+      Pas de compte ni de mot de passe : un indicatif et la couleur de votre voyant.
+    </p>
+
+    <div class="field">
+      <label class="field__label mono" for="nickname">Indicatif</label>
+      <div class="nick">
+        <span class="nick__at" aria-hidden="true">&#64;</span>
+        <input
+          #nicknameInput
+          id="nickname"
+          class="input nick__input"
+          autocomplete="nickname"
+          spellcheck="false"
+          maxlength="24"
+          placeholder="margot"
+          [value]="nickname()"
+          (input)="edit(nicknameInput.value)"
+          (blur)="touched.set(true)"
+          [attr.aria-invalid]="!!(error() ?? serverError())"
+          aria-describedby="nickname-help"
+        />
+      </div>
+      @if (error() ?? serverError(); as message) {
+        <p class="field__error" id="nickname-help" role="alert">{{ message }}</p>
+      } @else {
+        <p class="field__hint" id="nickname-help">{{ rule }}</p>
+      }
+    </div>
+
+    <fieldset class="colors">
+      <legend class="field__label mono">Couleur du voyant</legend>
+      <div class="colors__grid">
+        @for (c of colors; track c) {
+          <label class="swatch" [attr.data-lamp]="c">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="color"
+              [value]="c"
+              [checked]="c === color()"
+              (change)="color.set(c)"
+            />
+            <span class="swatch__bulb" aria-hidden="true"></span>
+            <span class="swatch__name">{{ colorLabels[c] }}</span>
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <div class="preview" aria-hidden="true">
+      <app-lamp [color]="color()" [nickname]="preview()" [size]="42" />
+      <div class="preview__text">
+        <strong class="preview__name" [attr.data-lamp]="color()">{{ preview() }}</strong>
+        <span class="mono faint">à l’antenne</span>
+      </div>
+    </div>
+
+    <button class="btn btn--signal card__submit" type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Connexion…' : 'Prendre l’antenne' }}
+    </button>
+    <p class="card__tip faint">
+      Astuce démo : ouvrez un second onglet avec un autre indicatif pour vous parler à vous-même.
+    </p>
+  </form>
+</main>
