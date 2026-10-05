@@ -1,0 +1,173 @@
+/* Pieces reutilisees partout : boutons, champs, badges, voyants. */
+
+/* ---------------------------------------------------------------- Boutons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 2.4rem;
+  padding: 0.5em 1.05em;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--panel-high);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 140ms,
+    border-color 140ms,
+    transform 90ms var(--ease-out),
+    box-shadow 140ms;
+}
+.btn:hover {
+  border-color: rgb(239 230 210 / 0.3);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* Interrupteur allume : ambre, avec son halo */
+.btn--signal {
+  border-color: transparent;
+  background: var(--signal);
+  color: var(--signal-ink);
+  box-shadow:
+    0 0 0 1px rgb(255 181 71 / 0.4),
+    0 6px 22px -8px var(--signal-glow);
+}
+.btn--signal:hover {
+  background: #ffc265;
+  border-color: transparent;
+}
+.btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-soft);
+}
+.btn--ghost:hover {
+  background: var(--panel-high);
+  color: var(--text);
+  border-color: transparent;
+}
+.btn--sm {
+  min-height: 1.9rem;
+  padding: 0.3em 0.7em;
+  font-size: 0.8125rem;
+}
+
+/* Bouton carre a icone (barres d'outils) */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-soft);
+  transition:
+    background-color 140ms,
+    color 140ms;
+}
+.icon-btn:hover {
+  background: var(--panel-high);
+  color: var(--text);
+}
+.icon-btn[aria-pressed='true'] {
+  color: var(--signal);
+}
+.icon-btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* ---------------------------------------------------------------- Champs */
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+.field__label {
+  color: var(--text-soft);
+}
+.field__hint {
+  color: var(--text-faint);
+  font-size: 0.8125rem;
+}
+.field__error {
+  color: var(--danger);
+  font-size: 0.8125rem;
+}
+
+.input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--night);
+  transition:
+    border-color 140ms,
+    box-shadow 140ms;
+}
+.input::placeholder {
+  color: var(--text-faint);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--signal);
+  box-shadow: 0 0 0 3px rgb(255 181 71 / 0.16);
+}
+.input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+/* ---------------------------------------------------------------- Badges */
+
+.badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--signal);
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.badge--alert {
+  background: var(--alert);
+  color: #1f0904;
+  box-shadow: 0 0 12px var(--alert-glow);
+}
+
+.tag {
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Section de panneau : titre en petites capitales, filet discret */
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  color: var(--text-faint);
+}

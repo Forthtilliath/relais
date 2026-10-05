@@ -1,0 +1,66 @@
+:root {
+  /* Bakelite : du plus profond au plus en relief */
+  --night: #0e0d0b;
+  --panel: #151310;
+  --panel-raised: #1c1a16;
+  --panel-high: #26231e;
+  --line: rgb(239 230 210 / 0.08);
+  --line-strong: rgb(239 230 210 / 0.16);
+
+  /* Encres */
+  --text: #efe6d2;
+  --text-soft: #b5aa95;
+  --text-faint: #7d7464;
+
+  /* Signaux du standard */
+  --signal: #ffb547;
+  --signal-ink: #1d1406;
+  --signal-glow: rgb(255 181 71 / 0.35);
+  --alert: #ff6a4d;
+  --alert-glow: rgb(255 106 77 / 0.4);
+  --live: #6fdcb8;
+  --danger: #ff7b6b;
+
+  /* Voyants des utilisateurs (couleur choisie a la connexion) */
+  --lamp-ambre: #ffb547;
+  --lamp-corail: #ff8a6b;
+  --lamp-menthe: #6fdcb8;
+  --lamp-azur: #7cb0ff;
+  --lamp-lilas: #c4a3ff;
+  --lamp-citron: #dde368;
+  --lamp: var(--signal);
+
+  /* Caracteres */
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --radius: 12px;
+  --radius-sm: 7px;
+  --gutter: clamp(14px, 2.4vw, 28px);
+  --sidebar-width: 272px;
+  --members-width: 248px;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Grain de la bakelite : bruit fractal SVG tres discret */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-lamp='ambre'] {
+  --lamp: var(--lamp-ambre);
+}
+[data-lamp='corail'] {
+  --lamp: var(--lamp-corail);
+}
+[data-lamp='menthe'] {
+  --lamp: var(--lamp-menthe);
+}
+[data-lamp='azur'] {
+  --lamp: var(--lamp-azur);
+}
+[data-lamp='lilas'] {
+  --lamp: var(--lamp-lilas);
+}
+[data-lamp='citron'] {
+  --lamp: var(--lamp-citron);
+}

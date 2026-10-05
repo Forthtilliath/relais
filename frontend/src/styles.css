@@ -1,0 +1,5 @@
+/* Relais — design system « standard de nuit ».
+   Tokens, puis socle, puis pieces du tableau de bord reutilisables (boutons, champs, voyants). */
+@import './styles/tokens.css';
+@import './styles/base.css';
+@import './styles/controls.css';
